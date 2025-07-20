@@ -1,0 +1,63 @@
+<table
+    tuiTable
+    [columns]="columns"
+    class="table">
+
+    <thead tuiThead>
+        <tr tuiThGroup>
+            <th tuiTh style="width: 10rem;">Element</th>
+            <th
+                tuiTh
+                style="width: 60rem;"
+                [resizable]="true">
+                    Content
+            </th>
+            <th tuiTh>Actions</th>
+        </tr>
+    </thead>
+    <tbody tuiTbody [data]="rows">
+        @for(row of rows; track row.name){
+            <tr tuiTr>
+                <td tuiTd *tuiCell="'element'"> <label>{{ row?.name }}</label> </td>
+                <td tuiTd *tuiCell="'content'">
+                    @if(row?.type == 2){
+                        <tui-icon
+                            icon="@tui.file"
+                        />
+                    }@else {
+                        <label> {{ row?.content }} </label>
+                    }
+                </td>
+                <td tuiTd *tuiCell="'actions'" style="display: flex; justify-content: center;">
+                    @if(row?.type == 1){
+                        <button
+                            appearance="secondary-destructive"
+                            iconStart="@tui.clipboard-copy"
+                            size="xs"
+                            tuiIconButton
+                            type="button"
+                            [style.border-radius.%]="100"
+                            (click)="copyContentToClipboard(row?.content!)"
+                            >
+                            Copy to clipboard
+                        </button>
+                    }@else{
+                        <button
+                            appearance="secondary-destructive"
+                            iconStart="@tui.download"
+                            size="xs"
+                            tuiIconButton
+                            type="button"
+                            [style.border-radius.%]="100"
+                            (click)="downloadFile(row?.content!, row?.name!)"
+                            >
+                            
+                            Download
+                        </button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>

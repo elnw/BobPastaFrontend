@@ -1,0 +1,76 @@
+<div>
+    <h2 class="modal-title">
+        Add new Pasta
+    </h2>
+
+    <form class="modal-form-body" [formGroup]="pastaControl" type="multipart/form-data">
+        <tui-textfield>
+            <label tuiLabel>Type the key of the pasta</label>
+            <input
+                tuiAutoFocus
+                tuiTextfield
+                formControlName="pastaNameControl"
+            />
+        </tui-textfield>
+        <tui-error
+            formControlName="pastaNameControl"
+            [error]="[] | tuiFieldError | async"
+        />
+
+        <label>
+            Select a type:
+            <tui-combo-box
+                formControlName="pastaTypeControl"
+                [stringify]="stringify"        
+                [tuiTextfieldLabelOutside]="true"
+            >
+                Types
+         
+                <tui-data-list-wrapper
+                    *tuiDataList
+                    [itemContent]="stringify | tuiStringifyContent"
+                    [items]="PastaTypes | tuiFilterByInput"
+                />
+            </tui-combo-box>
+        </label>
+
+        @if(this.pastaControl.get('pastaTypeControl')?.value.value == 1){
+            <tui-textarea
+                    formControlName="pastaTextContentControl"
+                    [expandable]="true"
+                >
+                Type the content of the pasta
+            </tui-textarea>
+        }@else{
+            <div
+                tuiAppearance="floating"
+                tuiCardLarge
+                
+            >
+                <section (dragover)="onDragOver($event)" (drop)="onDropSuccess($event)">
+                    @if(this.PastaContent){
+                        {{this.PastaContent.name}}
+                    }@else {
+                        Drop your file here
+                    }
+                </section>
+                <input id="inputFile" (change)="handleFileInput($event)" type="file" />
+            </div>
+        }
+        <tui-error
+            formControlName="pastaTextContentControl"
+            [error]="[] | tuiFieldError | async"
+        />
+
+        <button
+            size="m"
+            tuiButton
+            type="button"
+            style="width: 5rem; align-self: center;"
+            (click)="OnSavePasta()"
+        >
+            Save
+        </button>
+
+    </form>
+</div>
