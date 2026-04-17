@@ -7,7 +7,7 @@ import { Bobpasto } from '../Models/Bobpasto';
   providedIn: 'root'
 })
 export class BobpastoService {
-  private apiUrl = import.meta.env.NG_APP_API_URL;  // URL de la API cargada desde .env
+  private apiUrl = import.meta.env.NG_APP_API_URL + '/bobpasta';  // URL de la API cargada desde .env
 
   constructor(private http: HttpClient) { }
 
